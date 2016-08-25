@@ -33,6 +33,10 @@ pthread_mutex_t mut;
 int fd;
 p_bluetooth_frame_t BT_CMD = (p_bluetooth_frame_t)malloc(sizeof(bluetooth_frame));//p_bluetooth_frame_t));
 //如果不分配空间，会出现【段错误(核心已转储)】报错
+char* remnant = (char*)malloc(16*sizeof(char)) ;
+int offset = 0;
+p_bluetooth_frame_t RecvBuf = (p_bluetooth_frame_t)malloc(1000*sizeof(bluetooth_frame));
+char* buf = (char*)malloc(RCV_BUF_SIZE*sizeof(char)) ;
 
 int set_port(int fd,int  nbits)
 {
@@ -94,11 +98,6 @@ static int Bluetooth_Write_Serial(void* cmd, int length = BLUETOOTH_CMD_LEN)
         int j= write(fd,cmd,length);	
 	return 0;
 }
- 
-char* remnant = (char*)malloc(16*sizeof(char)) ;
-int offset = 0;
-p_bluetooth_frame_t RecvBuf = (p_bluetooth_frame_t)malloc(1000*sizeof(bluetooth_frame));
-char* buf = (char*)malloc(RCV_BUF_SIZE*sizeof(char)) ;
 
 static void Read_Handle(char* pack, int size)
 {
